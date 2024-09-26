@@ -1,8 +1,6 @@
-import './App.css'
+import './App.css';
 import {useEffect, useState} from "react";
 import axios from 'axios';
-
-
 
 type Todo = {
     id: string;
@@ -13,26 +11,22 @@ type Todo = {
 export default function App() {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [description, setDescription] = useState<string>("");
-    const [newDescription, setNewDescription] = useState<string>("")
 
-    // get Todos
+    // Get Todos
     useEffect(() => {
         axios.get("/api/todo")
             .then(response => setTodos(response.data))
             .catch(error => console.log(error));
-
-        axios.post("api/todo",)
     }, []);
 
-    // add Todos
+    // Add Todo
     function addTodo() {
         const newTodo: Partial<Todo> = {
             description: description,
             status: "OPEN"
         };
 
-        // post
-        axios.post("api/todo", newTodo)
+        axios.post("/api/todo", newTodo)
             .then(response => {
                 setTodos([...todos, response.data]);
                 setDescription("");
@@ -40,23 +34,48 @@ export default function App() {
             .catch(error => console.log(error));
     }
 
-    function updateTodo(id: string){
+    // Update Todo
+    function updateTodo(id: string, updatedDescription: string) {
+        const todoToUpdate = todos.find(todo => todo.id === id);
+
+        if (!todoToUpdate) return;
+
         const updatedTodo = {
-            description: newDescription,
-            status: "OPEN",
+            id: id,
+            description: updatedDescription,
+            status: todoToUpdate.status
         };
 
-        // put
         axios.put(`/api/todo/${id}`, updatedTodo)
-            .then((response) => {
-                setTodos((prevTodos) =>
-                    prevTodos.map(todo =>
-                        todo.id === id ? response.data : todo
-                    )
-                );
-                setNewDescription("");
+            .then(response => {
+                setTodos(todos.map(todo =>
+                    todo.id === id ? response.data : todo
+                ));
             })
             .catch(error => console.log(error));
+    }
+
+    // delete
+    function deleteTodo(id: string) {
+        axios.delete(`/api/todo/${id}`)
+            .then(() => {
+                setTodos(todos.filter(todo => todo.id !== id))
+            })
+            .catch(error => console.log(error));
+    }
+
+    // description input
+    function handleDescriptionChange(id: string, newDescription: string) {
+        setTodos(todos.map(todo =>
+            todo.id === id ? {...todo, description: newDescription} : todo
+        ));
+    }
+
+    // Status
+    function handelStatusChange(id: string, newStatus: string) {
+        setTodos(todos.map(todo =>
+            todo.id === id ? {...todo, status: newStatus} : todo
+        ));
     }
 
 
@@ -66,9 +85,24 @@ export default function App() {
             <ul>
                 {todos.map((todo) => (
                     <li key={todo.id}>
-                        {todo.description} - {todo.status}
-                        <button onClick={() => updateTodo(todo.id)}>
+                        <input
+                            type="text"
+                            value={todo.description}
+                            onChange={(event) => handleDescriptionChange(todo.id, event.target.value)}
+                        />
+                        <select
+                            value={todo.status}
+                            onChange={(event) => handelStatusChange(todo.id, event.target.value)}
+                        >
+                            <option value={"OPEN"}>OPEN</option>
+                            <option value={"IN_PROGRESS"}>IN PROGRESS</option>
+                            <option value={"DONE"}>DONE</option>
+                        </select>
+                        <button onClick={() => updateTodo(todo.id, todo.description)}>
                             Save Changes
+                        </button>
+                        <button onClick={() => deleteTodo(todo.id)}>
+                            Delete
                         </button>
                     </li>
                 ))}
@@ -82,16 +116,6 @@ export default function App() {
                 placeholder={"Todo eingeben"}
             />
             <button onClick={addTodo}>Hinzufügen</button>
-
-            <h2>Update Todo Beschreibung</h2>
-            <input
-                type="text"
-                value={newDescription}
-                onChange={(event) => setNewDescription(event.target.value)}
-                placeholder="Neue Beschreibung"
-            />
         </>
-    )
+    );
 }
-
-
