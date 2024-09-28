@@ -1,6 +1,7 @@
-import './App.css';
 import {useEffect, useState} from "react";
 import axios from 'axios';
+import Navbar from "./components/Navbar.tsx";
+import GlobalStyles from "./Globalstyles.ts";
 
 type Todo = {
     id: string;
@@ -81,6 +82,9 @@ export default function App() {
 
     return (
         <>
+            <GlobalStyles/>
+            <Navbar />
+            <main>
             <h1>ToDo Liste</h1>
             <ul>
                 {todos.map((todo) => (
@@ -116,6 +120,7 @@ export default function App() {
                 placeholder={"Todo eingeben"}
             />
             <button onClick={addTodo}>Hinzufügen</button>
+            </main>
         </>
     );
 }
