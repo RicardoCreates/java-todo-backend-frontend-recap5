@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import axios from 'axios';
 import Navbar from "./components/Navbar.tsx";
 import GlobalStyles from "./Globalstyles.ts";
+import styled from "styled-components";
+import Footer from "./components/Footer.tsx";
 
 type Todo = {
     id: string;
@@ -83,44 +85,58 @@ export default function App() {
     return (
         <>
             <GlobalStyles/>
-            <Navbar />
+            <Navbar/>
             <main>
-            <h1>ToDo Liste</h1>
-            <ul>
-                {todos.map((todo) => (
-                    <li key={todo.id}>
-                        <input
-                            type="text"
-                            value={todo.description}
-                            onChange={(event) => handleDescriptionChange(todo.id, event.target.value)}
-                        />
-                        <select
-                            value={todo.status}
-                            onChange={(event) => handelStatusChange(todo.id, event.target.value)}
-                        >
-                            <option value={"OPEN"}>OPEN</option>
-                            <option value={"IN_PROGRESS"}>IN PROGRESS</option>
-                            <option value={"DONE"}>DONE</option>
-                        </select>
-                        <button onClick={() => updateTodo(todo.id, todo.description)}>
-                            Save Changes
-                        </button>
-                        <button onClick={() => deleteTodo(todo.id)}>
-                            Delete
-                        </button>
-                    </li>
-                ))}
-            </ul>
+                <h1>ToDo Liste</h1>
+                <ul>
+                    {todos.map((todo) => (
+                        <li key={todo.id}>
+                            <input
+                                type="text"
+                                value={todo.description}
+                                onChange={(event) => handleDescriptionChange(todo.id, event.target.value)}
+                            />
+                            <select
+                                value={todo.status}
+                                onChange={(event) => handelStatusChange(todo.id, event.target.value)}
+                            >
+                                <option value={"OPEN"}>OPEN</option>
+                                <option value={"IN_PROGRESS"}>IN PROGRESS</option>
+                                <option value={"DONE"}>DONE</option>
+                            </select>
+                            <StyledButton onClick={() => updateTodo(todo.id, todo.description)}>
+                                Save Changes
+                            </StyledButton>
+                            <StyledButton onClick={() => deleteTodo(todo.id)}>
+                                Delete
+                            </StyledButton>
+                        </li>
+                    ))}
+                </ul>
 
-            <h2>Neues ToDo hinzufügen</h2>
-            <input
-                type={"text"}
-                value={description}
-                onChange={event => setDescription(event.target.value)}
-                placeholder={"Todo eingeben"}
-            />
-            <button onClick={addTodo}>Hinzufügen</button>
+                <h2>Neues ToDo hinzufügen</h2>
+                <input
+                    type={"text"}
+                    value={description}
+                    onChange={event => setDescription(event.target.value)}
+                    placeholder={"Todo eingeben"}
+                />
+                <StyledButton onClick={addTodo}>Hinzufügen</StyledButton>
             </main>
+            <Footer/>
         </>
     );
 }
+
+const StyledButton = styled.button`
+    background: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
+    margin-right: 10px;
+
+    &:active {
+        box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
+    }
+`;
