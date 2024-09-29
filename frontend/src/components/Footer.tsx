@@ -14,11 +14,12 @@ export default function Footer(){
 
 
 const FooterStyled = styled.div`
-  background-color: #3498db;
-  color: white;
-  text-align: center;
-  padding: 1em;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
+    background-color: #ffffff;
+    color: black;
+    text-align: center;
+    padding: 1em;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
 `;

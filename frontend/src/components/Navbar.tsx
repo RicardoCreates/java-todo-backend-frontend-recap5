@@ -12,7 +12,7 @@ const StyledContainer = styled.div`
     text-align: center;
     margin: 0;
     padding: 5px;
-    background-color: #89CFF0;
+    background-color:#2de2e6;
     box-shadow: 10px 10px 50px rgba(0,0,0,0.3);
 
     a {

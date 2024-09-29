@@ -2,8 +2,10 @@ import {useEffect, useState} from "react";
 import axios from 'axios';
 import Navbar from "./components/Navbar.tsx";
 import GlobalStyles from "./Globalstyles.ts";
-import styled from "styled-components";
 import Footer from "./components/Footer.tsx";
+import {Route, Routes} from "react-router-dom";
+import MainPage from "./pages/MainPage.tsx";
+import HomePage from "./pages/HomePage.tsx";
 
 type Todo = {
     id: string;
@@ -58,85 +60,49 @@ export default function App() {
             .catch(error => console.log(error));
     }
 
-    // delete
+    // Delete Todo
     function deleteTodo(id: string) {
         axios.delete(`/api/todo/${id}`)
             .then(() => {
-                setTodos(todos.filter(todo => todo.id !== id))
+                setTodos(todos.filter(todo => todo.id !== id));
             })
             .catch(error => console.log(error));
     }
 
-    // description input
+    // Handle description change
     function handleDescriptionChange(id: string, newDescription: string) {
         setTodos(todos.map(todo =>
             todo.id === id ? {...todo, description: newDescription} : todo
         ));
     }
 
-    // Status
-    function handelStatusChange(id: string, newStatus: string) {
+    // Handle status change
+    function handleStatusChange(id: string, newStatus: string) {
         setTodos(todos.map(todo =>
             todo.id === id ? {...todo, status: newStatus} : todo
         ));
     }
 
-
     return (
         <>
             <GlobalStyles/>
             <Navbar/>
-            <main>
-                <h1>ToDo Liste</h1>
-                <ul>
-                    {todos.map((todo) => (
-                        <li key={todo.id}>
-                            <input
-                                type="text"
-                                value={todo.description}
-                                onChange={(event) => handleDescriptionChange(todo.id, event.target.value)}
-                            />
-                            <select
-                                value={todo.status}
-                                onChange={(event) => handelStatusChange(todo.id, event.target.value)}
-                            >
-                                <option value={"OPEN"}>OPEN</option>
-                                <option value={"IN_PROGRESS"}>IN PROGRESS</option>
-                                <option value={"DONE"}>DONE</option>
-                            </select>
-                            <StyledButton onClick={() => updateTodo(todo.id, todo.description)}>
-                                Save Changes
-                            </StyledButton>
-                            <StyledButton onClick={() => deleteTodo(todo.id)}>
-                                Delete
-                            </StyledButton>
-                        </li>
-                    ))}
-                </ul>
-
-                <h2>Neues ToDo hinzufügen</h2>
-                <input
-                    type={"text"}
-                    value={description}
-                    onChange={event => setDescription(event.target.value)}
-                    placeholder={"Todo eingeben"}
-                />
-                <StyledButton onClick={addTodo}>Hinzufügen</StyledButton>
-            </main>
+            <Routes>
+                <Route path="/mainpage" element={
+                    <MainPage
+                        todos={todos}
+                        description={description}
+                        setDescription={setDescription}
+                        handleStatusChange={handleStatusChange}
+                        handleDescriptionChange={handleDescriptionChange}
+                        deleteTodo={deleteTodo}
+                        updateTodo={updateTodo}
+                        addTodo={addTodo}
+                    />
+                }/>
+                <Route path={"/"} element={<HomePage/>}/>
+            </Routes>
             <Footer/>
         </>
     );
 }
-
-const StyledButton = styled.button`
-    background: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
-    margin-right: 10px;
-
-    &:active {
-        box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
-    }
-`;
