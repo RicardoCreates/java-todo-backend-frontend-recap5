@@ -1,6 +1,11 @@
-import './App.css';
 import {useEffect, useState} from "react";
 import axios from 'axios';
+import Navbar from "./components/Navbar.tsx";
+import GlobalStyles from "./Globalstyles.ts";
+import Footer from "./components/Footer.tsx";
+import {Route, Routes} from "react-router-dom";
+import MainPage from "./pages/MainPage.tsx";
+import HomePage from "./pages/HomePage.tsx";
 
 type Todo = {
     id: string;
@@ -55,67 +60,49 @@ export default function App() {
             .catch(error => console.log(error));
     }
 
-    // delete
+    // Delete Todo
     function deleteTodo(id: string) {
         axios.delete(`/api/todo/${id}`)
             .then(() => {
-                setTodos(todos.filter(todo => todo.id !== id))
+                setTodos(todos.filter(todo => todo.id !== id));
             })
             .catch(error => console.log(error));
     }
 
-    // description input
+    // Handle description change
     function handleDescriptionChange(id: string, newDescription: string) {
         setTodos(todos.map(todo =>
             todo.id === id ? {...todo, description: newDescription} : todo
         ));
     }
 
-    // Status
-    function handelStatusChange(id: string, newStatus: string) {
+    // Handle status change
+    function handleStatusChange(id: string, newStatus: string) {
         setTodos(todos.map(todo =>
             todo.id === id ? {...todo, status: newStatus} : todo
         ));
     }
 
-
     return (
         <>
-            <h1>ToDo Liste</h1>
-            <ul>
-                {todos.map((todo) => (
-                    <li key={todo.id}>
-                        <input
-                            type="text"
-                            value={todo.description}
-                            onChange={(event) => handleDescriptionChange(todo.id, event.target.value)}
-                        />
-                        <select
-                            value={todo.status}
-                            onChange={(event) => handelStatusChange(todo.id, event.target.value)}
-                        >
-                            <option value={"OPEN"}>OPEN</option>
-                            <option value={"IN_PROGRESS"}>IN PROGRESS</option>
-                            <option value={"DONE"}>DONE</option>
-                        </select>
-                        <button onClick={() => updateTodo(todo.id, todo.description)}>
-                            Save Changes
-                        </button>
-                        <button onClick={() => deleteTodo(todo.id)}>
-                            Delete
-                        </button>
-                    </li>
-                ))}
-            </ul>
-
-            <h2>Neues ToDo hinzufügen</h2>
-            <input
-                type={"text"}
-                value={description}
-                onChange={event => setDescription(event.target.value)}
-                placeholder={"Todo eingeben"}
-            />
-            <button onClick={addTodo}>Hinzufügen</button>
+            <GlobalStyles/>
+            <Navbar/>
+            <Routes>
+                <Route path="/mainpage" element={
+                    <MainPage
+                        todos={todos}
+                        description={description}
+                        setDescription={setDescription}
+                        handleStatusChange={handleStatusChange}
+                        handleDescriptionChange={handleDescriptionChange}
+                        deleteTodo={deleteTodo}
+                        updateTodo={updateTodo}
+                        addTodo={addTodo}
+                    />
+                }/>
+                <Route path={"/"} element={<HomePage/>}/>
+            </Routes>
+            <Footer/>
         </>
     );
 }
