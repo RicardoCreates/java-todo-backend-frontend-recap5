@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
 
 type Todo = {
     id: string;
@@ -48,12 +49,14 @@ export default function MainPage({
                             <option value="IN_PROGRESS">IN PROGRESS</option>
                             <option value="DONE">DONE</option>
                         </StyledSelect>
-                        <StyledButton onClick={() => updateTodo(todo.id, todo.description)}>
-                            Save Changes
-                        </StyledButton>
-                        <StyledButton onClick={() => deleteTodo(todo.id)}>
-                            Delete
-                        </StyledButton>
+                        {/*<StyledButton onClick={() => updateTodo(todo.id, todo.description)}>*/}
+                        {/*    Save Changes*/}
+                        {/*</StyledButton>*/}
+                        <Button variant="outlined" onClick={() => updateTodo(todo.id, todo.description)}>Save Changes</Button>
+                        {/*<StyledButton onClick={() => deleteTodo(todo.id)}>*/}
+                        {/*    Delete*/}
+                        {/*</StyledButton>*/}
+                        <Button variant="text" onClick={() => deleteTodo(todo.id)}>Delete</Button>
                     </li>
                 ))}
             </ul>
@@ -65,7 +68,8 @@ export default function MainPage({
                     onChange={event => setDescription(event.target.value)}
                     placeholder="Todo eingeben"
                 />
-                <StyledButton onClick={addTodo}>Hinzufügen</StyledButton>
+                {/*<StyledButton onClick={addTodo}>Hinzufügen</StyledButton>*/}
+                <Button variant="contained" onClick={addTodo}>Hinzufügen</Button>
             </>
             <div>
                 <StyledLink to="/">← Zurück</StyledLink>
@@ -75,18 +79,18 @@ export default function MainPage({
     );
 }
 
-const StyledButton = styled.button`
-    background: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
-    margin-right: 10px;
-
-    &:active {
-        box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
-    }
-`;
+// const StyledButton = styled.button`
+//     background: rgba(255, 255, 255, 0.6);
+//     cursor: pointer;
+//     border: none;
+//     border-radius: 5px;
+//     box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
+//     margin-right: 10px;
+//
+//     &:active {
+//         box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
+//     }
+// `;
 
 const StyledLink = styled(Link)`
     display: flex;
