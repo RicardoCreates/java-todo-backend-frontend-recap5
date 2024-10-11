@@ -74,6 +74,8 @@ export default function MainPage({
             <div>
                 <StyledLink to="/">← Zurück</StyledLink>
             </div>
+            <StyledButton>Test</StyledButton>
+            <StyledButton2>Test2</StyledButton2>
         </StyledContainer>
         </StyledDiv>
     );
@@ -173,5 +175,58 @@ const StyledSelect = styled.select`
         outline: none;
         border-color: #007BFF;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+`;
+
+const StyledButton = styled.button`
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 6px 150px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    cursor: pointer;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.3s, box-shadow 0.3s;
+
+    &:hover {
+        background-color: #115293;
+    }
+
+    &:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+
+    &:disabled {
+        background-color: #e0e0e0;
+        color: #9e9e9e;
+        cursor: not-allowed;
+    }
+`;
+
+const StyledButton2 = styled.button`
+    background-color: rgba(255, 255, 255, 0.6);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 150px;
+    margin-right: 10px;
+    cursor: pointer;
+    box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    &:active {
+        box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.5);
     }
 `;
