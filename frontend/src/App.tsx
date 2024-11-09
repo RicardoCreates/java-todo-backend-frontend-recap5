@@ -6,6 +6,7 @@ import Footer from "./components/Footer.tsx";
 import {Route, Routes} from "react-router-dom";
 import MainPage from "./pages/MainPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
+import About from "./pages/About.tsx";
 
 type Todo = {
     id: string;
@@ -101,6 +102,7 @@ export default function App() {
                     />
                 }/>
                 <Route path={"/"} element={<HomePage/>}/>
+                <Route path={"/about"} element={<About/>}/>
             </Routes>
             <Footer/>
         </>
