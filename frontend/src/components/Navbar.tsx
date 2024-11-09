@@ -1,9 +1,16 @@
 import styled from "styled-components";
+import {Link} from "react-router-dom";
+
 
 export default function Navbar(){
+
+
     return (
         <StyledContainer>
         <h1>ToDo App</h1>
+            <Link to={"/"}>Home</Link>
+            <Link to={"/mainpage"}>Todos</Link>
+            <Link to={"/about"}>About</Link>
         </StyledContainer>
     )
 }
